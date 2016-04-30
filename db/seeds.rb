@@ -45,6 +45,7 @@ colors.each do |color|
 end
 
 g = Game.create(num_players: 4)
+Board.create(game_id: g.id)
 Deck.create(game_id: g.id)
 User.all.each do |user|
   Player.create(user_id: user.id, game_id: g.id)
@@ -52,3 +53,14 @@ end
 
 g.deck.build_deck
 g.deck.save
+
+### Deal Cards ###
+g.players.each do |player|
+  6.times do
+    draw = g.deck.deck_cards.sample
+    player.hand_cards.create(card_id: draw.card_id)
+    g.deck.deck_cards.delete(draw.id)
+    # g.deck.deck_cards.find(draw.id).destroy
+    g.deck.save
+  end
+end
