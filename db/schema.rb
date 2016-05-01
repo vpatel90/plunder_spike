@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20160430221840) do
   create_table "games", force: :cascade do |t|
     t.integer  "num_players"
     t.string   "state"
+    t.integer  "turn"
+    t.integer  "turn_player"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -72,8 +74,10 @@ ActiveRecord::Schema.define(version: 20160430221840) do
     t.integer  "player_id"
     t.integer  "board_id"
     t.integer  "card_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "leader"
+    t.integer  "lead_cannons"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "merchants", ["board_id"], name: "index_merchants_on_board_id", using: :btree

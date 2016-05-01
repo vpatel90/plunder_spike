@@ -31,15 +31,27 @@ class Player < ActiveRecord::Base
 
   def play(card_id, target_id = 0)
     card = get_card(card_id)
+    merc = Merchant.find(target_id) unless target_id == 0
     hand_card = get_hand_card(card_id)
     if card.category == 'M'
-      self.merchants.create(board_id: 1, card_id: card_id)
+      self.merchants.create(board_id: 1, card_id: card_id, leader: self.id, lead_cannons: 0)
     elsif card.category == 'P'
-      self.pirates.create(board_id: 1, merchant_id: target_id, card_id: card_id)
+      if valid_color?(card, merc)
+        self.pirates.create(board_id: 1, merchant_id: target_id, card_id: card_id)
+        merc.set_leader
+      else
+        return
+      end
     end
     self.cards.delete(card_id)
     hand_card.destroy
+  end
 
+  def valid_color?(card, merc)
+    find_card = merc.pirate_cards.where(color: card.color).first
+    return true if find_card.nil?
+    return true if merc.pirates.where(card_id: find_card.id).player == self
+    return false
   end
 
   def get_card(id)
