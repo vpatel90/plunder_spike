@@ -1,5 +1,4 @@
 class Game < ActiveRecord::Base
-  attr_accessor :turn_index
   has_one :deck
   has_many :players
   has_one :board

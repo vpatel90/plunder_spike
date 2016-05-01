@@ -5,6 +5,10 @@ class Merchant < ActiveRecord::Base
   has_many :pirates
   has_many :pirate_cards, through: :pirates, source: :card
 
+  def merchant_card
+    self.card
+  end
+
   def set_leader
     colors = ['blue','green','purple','gold']
     leader = nil

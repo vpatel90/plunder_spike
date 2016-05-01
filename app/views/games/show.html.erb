@@ -7,3 +7,17 @@
 
 <%= link_to 'Edit', edit_game_path(@game) %> |
 <%= link_to 'Back', games_path %>
+<hr/>
+<% if @game.turn_player == current_user.player.id %>
+<h3>Its Your turn</h3>
+<%= link_to 'Draw Card', draw_game_player_path(@game, current_user.player), method: 'POST', class:'waves-effect waves-light btn' %>
+<% end %>
+<div class="right">Cards in Deck: <%= @game.deck.deck_cards.length %></div>
+
+<% @game.players.each do |player| %>
+  <% if player.user != current_user %>
+    <%= render partial: 'player_box', locals: { player: player } %>
+  <% end %>
+<% end %>
+
+<%= render partial: 'current_player', locals: { player: @current_player } %>

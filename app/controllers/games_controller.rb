@@ -10,6 +10,7 @@ class GamesController < ApplicationController
   # GET /games/1
   # GET /games/1.json
   def show
+    @current_player = @game.players.where(user_id: current_user.id).first
   end
 
   # GET /games/new

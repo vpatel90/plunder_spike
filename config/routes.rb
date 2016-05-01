@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :games
+  resources :games do
+    resources :players do
+      member do
+        post 'draw'
+        post 'playmerc', to: 'players#play_merc'
+      end
+    end
+  end
   get '/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   get '/sign_out', to: 'sessions#sign_out', as: 'sign_out'
   post '/sign_in', to: 'sessions#create'
@@ -10,7 +17,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'users#index'
+  root 'games#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
