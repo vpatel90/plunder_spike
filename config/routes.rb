@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       member do
         post 'draw'
         post 'playmerc', to: 'players#play_merc'
+        post 'playpirate', to: 'players#play_pirate'
+
       end
     end
   end

@@ -9,10 +9,17 @@
           <p>Card: <%=card.category %> | <%=card.value %> | <%= card.color %>
           <% if @game.turn_player == player.id && card.category == 'M'%>
             <%= link_to 'Play Card', playmerc_game_player_path(@game, player, card_id: card.id), method: 'POST', class:'right waves-effect waves-light btn' %>
+          <% elsif @game.turn_player == player.id && card.category == 'P' %>
+          <select class="right">
+            <option value="" disabled selected>Choose your option</option>
+            <% @game.board.merchants.each do |merchant| %>
+              <option><%= link_to "#{merchant.player.user.name}: #{merchant.merchant_card.value}", playpirate_game_player_path(@game, player, card_id: card.id, target_id: merchant.id) %> </option>
+            <% end %>
+          </select>
           <% end %>
           </p>
-          <br />
-          <hr />
+          <br /><br />
+
         <% end %>
       </div>
       <div class="card-action">
